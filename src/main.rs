@@ -26,13 +26,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         //.json::<HashMap<String, String>>()
         .await?;
 
-    println!("{:#?}", resp);
+    // println!("{:#?}", resp);
 
-    let resp_json = resp.json::<HashMap<String, JsonValue>>().await?;
-    // let v: JsonValue = serde_json::from_str(resp_json.as_slice().to_vec())?;
+    //let resp_json = resp.json::<HashMap<String, JsonValue>>().await?;
+    let resp_json = resp.json::<JsonValue>().await?;
+    //let v: JsonValue = serde_json::from_value(resp_json)?;
     // let resp_jj = serde_json::from_str(resp_json);
     // let data : JsonValue = resp_jj.unwrap();
-    println!("{:#?}", resp_json);
+    //
+    // let asn = String::from("country");
+    //println!("{:#?}", resp_json.get(&asn));
+    // println!("{:#?}", resp_json["data"]["attributes"]["last_analysis_stats"]);
+    println!("{}", resp_json["data"]["attributes"]["last_analysis_stats"]);
 
     Ok(())
 }
