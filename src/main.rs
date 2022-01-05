@@ -4,6 +4,7 @@ use serde_json::Value as JsonValue;
 // use std::collections::HashMap;
 use reqwest::header::HeaderMap;
 use std::env;
+use std::fs;
 use std::process;
 
 // #[derive(Deserialize, Debug)]
@@ -12,8 +13,7 @@ use std::process;
 // }
 
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() {
 
     let args: Vec<String> = env::args().collect();
     
@@ -24,6 +24,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("IP adress: {}\n", params.ip);
 
+    if let Err(e) = run(params) {
+        println!("Application error: {}", e);
+        process::exit(1);
+    }
+}
+
+#[tokio::main]
+async fn virust_req() -> Result<(), Box<dyn std::error::Error>> {
     let api_key = "31616d3c6fe801289c3db2730cf07cb35f682abf21a00c79136af88bdb3dd797";
 
     let mut headers = HeaderMap::new();
@@ -47,6 +55,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
+fn run(params: Params) -> Result<(), Box<dyn std::error::Error>> {
+    let contents = fs::read_to_string(params.filename)?;
+        // .expect("Something went wrong reading the file");
+
+    println!("Test de lecture: \n{}", contents);
+
+    Ok(())
+}
+
 struct Params {
     ip: String,
     filename: String,
@@ -63,6 +80,5 @@ impl Params {
 
         Ok(Params { ip, filename })
     }
-
 }
 
