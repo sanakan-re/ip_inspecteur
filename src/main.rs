@@ -1,8 +1,10 @@
 extern crate serde_json;
-use serde::Deserialize;
+// use serde::Deserialize;
 use serde_json::Value as JsonValue;
-use std::collections::HashMap;
+// use std::collections::HashMap;
 use reqwest::header::HeaderMap;
+use std::env;
+use std::process;
 
 // #[derive(Deserialize, Debug)]
 // struct Ip_intel {
@@ -12,6 +14,15 @@ use reqwest::header::HeaderMap;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+
+    let args: Vec<String> = env::args().collect();
+    
+    let params = Params::new(&args).unwrap_or_else( |err | {
+        println!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+
+    println!("IP adress: {}\n", params.ip);
 
     let api_key = "31616d3c6fe801289c3db2730cf07cb35f682abf21a00c79136af88bdb3dd797";
 
@@ -30,16 +41,28 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     //let resp_json = resp.json::<HashMap<String, JsonValue>>().await?;
     let resp_json = resp.json::<JsonValue>().await?;
-    //let v: JsonValue = serde_json::from_value(resp_json)?;
-    // let resp_jj = serde_json::from_str(resp_json);
-    // let data : JsonValue = resp_jj.unwrap();
-    //
-    // let asn = String::from("country");
-    //println!("{:#?}", resp_json.get(&asn));
-    // println!("{:#?}", resp_json["data"]["attributes"]["last_analysis_stats"]);
-    println!("{}", resp_json["data"]["attributes"]["last_analysis_stats"]);
+
+    println!("{:#?}", resp_json["data"]["attributes"]["last_analysis_stats"]);
 
     Ok(())
 }
 
+struct Params {
+    ip: String,
+    filename: String,
+}
+
+impl Params {
+    fn new(args: &[String]) -> Result<Params, &str> {
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+
+        let ip = args[1].clone();
+        let filename = args[2].clone();
+
+        Ok(Params { ip, filename })
+    }
+
+}
 
