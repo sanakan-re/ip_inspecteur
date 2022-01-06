@@ -5,8 +5,8 @@ use serde_json::Value as JsonValue;
 use reqwest::header::HeaderMap;
 use std::env;
 use std::process;
-
-use ip_inspecteur::Params;
+use clap::Parser;
+use ip_inspecteur::Args;
 use ip_inspecteur::run;
 
 // #[derive(Deserialize, Debug)]
@@ -17,16 +17,17 @@ use ip_inspecteur::run;
 
 fn main() {
 
-    let args: Vec<String> = env::args().collect();
+    // let args: Vec<String> = env::args().collect();
+    let args = Args::parse();
     
-    let params = Params::new(&args).unwrap_or_else( |err | {
-        println!("Problem parsing arguments: {}", err);
-        process::exit(1);
-    });
+//     let params = Params::new(&args).unwrap_or_else( |err | {
+//         println!("Problem parsing arguments: {}", err);
+//         process::exit(1);
+//     });
 
-    println!("IP adress: {}\n", params.ip);
+    println!("IP adress: {}\n", args.ip);
 
-    if let Err(e) = run(params) {
+    if let Err(e) = run(args) {
         println!("Application error: {}", e);
         process::exit(1);
     }
