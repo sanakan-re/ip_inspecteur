@@ -4,8 +4,10 @@ use serde_json::Value as JsonValue;
 // use std::collections::HashMap;
 use reqwest::header::HeaderMap;
 use std::env;
-use std::fs;
 use std::process;
+
+use ip_inspecteur::Params;
+use ip_inspecteur::run;
 
 // #[derive(Deserialize, Debug)]
 // struct Ip_intel {
@@ -55,30 +57,4 @@ async fn virust_req() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn run(params: Params) -> Result<(), Box<dyn std::error::Error>> {
-    let contents = fs::read_to_string(params.filename)?;
-        // .expect("Something went wrong reading the file");
-
-    println!("Test de lecture: \n{}", contents);
-
-    Ok(())
-}
-
-struct Params {
-    ip: String,
-    filename: String,
-}
-
-impl Params {
-    fn new(args: &[String]) -> Result<Params, &str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
-
-        let ip = args[1].clone();
-        let filename = args[2].clone();
-
-        Ok(Params { ip, filename })
-    }
-}
 
