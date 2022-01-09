@@ -18,7 +18,7 @@ pub struct Args {
     pub ip: String,
 
     /// filename
-    #[clap(short, long)]
+    #[clap(short, long, default_value = "none")]
     pub filename: String,
 }
 

@@ -20,7 +20,7 @@ fn main() {
     // let args: Vec<String> = env::args().collect();
     let args = Args::parse();
 
-    virust_req(&args.ip);
+    // virust_req(&args.ip);
     
 //     let params = Params::new(&args).unwrap_or_else( |err | {
 //         println!("Problem parsing arguments: {}", err);
@@ -29,7 +29,11 @@ fn main() {
 
     // println!("IP adress: {}\n", args.ip);
 
-    if let Err(e) = run(args) {
+    // if let Err(e) = run(args) {
+    //     println!("Application error: {}", e);
+    //     process::exit(1);
+    // }
+    if let Err(e) = virust_req(&args.ip) {
         println!("Application error: {}", e);
         process::exit(1);
     }
