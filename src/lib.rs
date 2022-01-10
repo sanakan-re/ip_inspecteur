@@ -1,8 +1,8 @@
 use std::fs;
 use clap::Parser;
 
-pub fn run(args: Args) -> Result<(), Box<dyn std::error::Error>> {
-    let contents = fs::read_to_string(args.filename)?;
+pub fn run(filename: &String) -> Result<(), Box<dyn std::error::Error>> {
+    let contents = fs::read_to_string(filename)?;
         // .expect("Something went wrong reading the file");
 
     println!("Test de lecture: \n{}", contents);
@@ -14,7 +14,7 @@ pub fn run(args: Args) -> Result<(), Box<dyn std::error::Error>> {
 #[clap(about, version, author)]
 pub struct Args {
     ///  ip
-    #[clap(short, long)]
+    #[clap(short, long, default_value = "none")]
     pub ip: String,
 
     /// filename

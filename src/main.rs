@@ -29,10 +29,10 @@ fn main() {
 
     // println!("IP adress: {}\n", args.ip);
 
-    // if let Err(e) = run(args) {
-    //     println!("Application error: {}", e);
-    //     process::exit(1);
-    // }
+    if let Err(e) = run(&args.filename) {
+        println!("Application error: {}", e);
+        process::exit(1);
+    }
     if let Err(e) = virust_req(&args.ip) {
         println!("Application error: {}", e);
         process::exit(1);
@@ -62,7 +62,7 @@ async fn virust_req(ip: &String) -> Result<(), Box<dyn std::error::Error>> {
     //let resp_json = resp.json::<HashMap<String, JsonValue>>().await?;
     let resp_json = resp.json::<JsonValue>().await?;
 
-    println!("{:#?}", resp_json["data"]["attributes"]["last_analysis_stats"]);
+    println!("{}", resp_json["data"]["attributes"]["last_analysis_stats"]);
 
     Ok(())
 }
