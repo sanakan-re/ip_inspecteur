@@ -12,6 +12,7 @@ pub fn run(filename: &String) -> Result<(), Box<dyn std::error::Error>> {
         // .expect("Something went wrong reading the file");
 
     println!("Liste d'IP: \n{}", contents);
+    println!("{:#?}", contents);
 
     Ok(())
 }
@@ -19,7 +20,9 @@ pub fn run(filename: &String) -> Result<(), Box<dyn std::error::Error>> {
 
 #[tokio::main]
 pub async fn virust_req(ip: &String) -> Result<(), Box<dyn std::error::Error>> {
-    let api_key = "31616d3c6fe801289c3db2730cf07cb35f682abf21a00c79136af88bdb3dd797";
+    let content = fs::read_to_string("apiK_file")?;
+    let api_key = content.replace("\n", "");
+    // println!("{}", api_key);
     let vt_adress = String::from("https://www.virustotal.com/api/v3/ip_addresses/"); 
 
     let _vt_adress_i = vt_adress + &ip;

@@ -1,7 +1,7 @@
 // use std::env;
 use std::process;
-use clap::{App, Arg, ArgGroup};
-use ip_inspecteur::Args;
+use clap::{App, Arg};
+// use ip_inspecteur::Args;
 use ip_inspecteur::run;
 use ip_inspecteur::virust_req;
 
@@ -15,7 +15,7 @@ fn main() {
 
     // let args: Vec<String> = env::args().collect();
     // let args = Args::parse();
-    let mut app = App::new("ip_inspecteur")
+    let app = App::new("ip_inspecteur")
         .version("0.1.3")
         .author("sanakan")
         .about("")
